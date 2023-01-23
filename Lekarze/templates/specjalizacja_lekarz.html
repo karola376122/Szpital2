@@ -1,0 +1,14 @@
+  {% extends 'szablon.html' %}
+
+    {% block lekarz %}
+        {% if specjalizacja_lekarz %}
+           {% for lekarz in specjalizacja_lekarz %}
+
+               <p> <a href = "/lekarz/{{lekarz.id}}/"> {{lekarz.imie}} {{lekarz.nazwisko}} </a></p>
+
+            {% endfor %}
+
+         {% else %}
+         {% endif %}
+
+    {% endblock %}

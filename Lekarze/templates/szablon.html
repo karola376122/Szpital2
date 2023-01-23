@@ -1,0 +1,263 @@
+
+<!DOCTYPE html>
+{% load static %}
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+.button5 {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.button1 {background-color: #4CAF50;}
+
+header {
+	width: 100%;
+	height: 2px;
+	margin: 0 auto;
+	}
+
+.horizontal-menu {
+  width:100%;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover:not(.active) {
+  background-color: #111;
+}
+
+.active {
+  background-color: #45a049;
+}
+
+
+.vertical-menu {
+  width: 200px;
+}
+
+.vertical-menu a {
+  background-color: #eee;
+  color: black;
+  display: block;
+  padding: 12px;
+  text-decoration: none;
+}
+
+.vertical-menu a:hover {
+  background-color: #ccc;
+}
+
+.vertical-menu a.active {
+  background-color: #45a049;
+  color: white;
+}
+
+#customers {
+
+  width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#customers td, #customers th {
+
+  padding: 8px;
+}
+
+#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+#customers tr:hover {background-color: #ddd;}
+
+#customers th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  background-color: #45a049;
+  color: white;
+}
+#customers td {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #eee;
+  color: blacks;
+}
+#footer {
+          background: #F0F0F0;
+          border-top: 1px solid #000;
+          clear: both;
+          padding: 10px;
+          text-align: right;
+}
+
+          #footer p {
+                      font: 11px Verdana, Tahoma, Helvetica, Arial, sans-serif;
+                      margin: auto;
+          }
+
+#content {
+           margin: auto;
+           width: 780px;
+}
+.hello-msg {
+font-size: 16px;
+color: white;
+margin-right: 20px;
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+</style>
+</head>
+<body>
+<header>
+
+
+
+</header>
+<div>
+<h1>
+<a href ="/">
+   <center><img src="{% static 'logo.png' %}" width="400px"></center>
+
+
+</a>
+
+</h1>
+</div>
+<header>
+    <div>
+<ul>
+  <left><li><a href="{% url 'index' %}">Strona Główna</a></li></left>
+  <li><a href="{% url 'kontakt' %}">Kontakt</a></li>
+  <li><a class="active" href="{% url 'dodaj_wizyte' %}"> Umów wizyte </a></li>
+
+<span> <li style="float:right"><a href="{% url 'logout' %} ">Wyloguj</a></li></span>
+    <li style="float:right"> <span class="hello-msg"> Hello, {{request.user}} </span> </li>
+{% if user.is_superuser %}
+ <li><a href="{% url 'dodaj_lekarza' %}">Dodaj lekarza</a></li>
+    <li><a href="{% url 'dodaj_specjalizacje' %}">Dodaj specjalizacje</a></li>
+    <li><li style="float:right"><a href="http://127.0.0.1:8000/admin/">Panel</a></li>
+{% endif %}
+{% if user.is_staff %}
+<li><a href="{% url 'dodaj_recepte' %}">Wystaw recepte</a></li>
+    <li><a href="{% url 'dodaj_skierowanie' %}">Wystaw skierowanie</a></li>
+{% endif %}
+    </ul>
+</div>
+</header>
+<h3>.</h3>
+<div class="vertical-menu">
+<div style ="clear:both"></div>
+<div style ="width:200px; float:left">
+    <h3> </h3>
+    <center> <a href="#" class="active">MENU</a> </center>
+    {% for spec in kontakt %}
+
+    <center><p><a href = "/specjalizacja/{{spec.id}}">{{spec.nazwa}} </a> </p> </center>
+
+{% endfor %}
+     {% for spec in wizyta %}
+
+    <center><p><a href = "/specjalizacja/{{spec.id}}">{{spec.nazwa}} </a> </p> </center>
+
+{% endfor %}
+{% for spec in specjalizacje %}
+
+    <center><p><a href = "/specjalizacja/{{spec.id}}">{{spec.nazwa}} </a> </p> </center>
+
+{% endfor %}
+
+
+</div>
+</div>
+<table id="customers">
+    {% if not kontakt and not lekarz_user and not specjalizacja_lekarz and not wizyta %}
+
+    <th>WITAMY</th>
+  </tr>
+  <tr>
+      <h3>. </h3>
+       <td>
+           <center> Umów się już teraz na wizyte do lekarza specjalisty za darmo  </p> </center>
+       <center><img src="{% static 'szpital.jpg' %}" width="500px"></center>
+           <center> <p> <a href="{% url 'dodaj_wizyte' %}" class="button5">Umów wizyte</a></p> </center>
+       </td>
+
+
+    {% endif %}
+
+
+      {% if specjalizacja_lekarz or lekarz_user %}
+    <th>LEKARZE</th>
+  </tr>
+  <tr>
+      <h3>. </h3>
+   <center> <td>{% block lekarz %} {%endblock lekarz %}</td> </center> </tr>
+
+  </tr>
+
+    {% endif %}
+
+        {% if kontakt %}
+    <th>KONTAKT</th>
+  </tr>
+  <tr>
+      <h3>. </h3>
+       <td> <center> <p> Adres: </p></center>
+           <center> <p> Placówka Lecznicza S.A. </p> </center>
+      <center>  <p> ul. Nowa 21 </p> </center>
+      <center>       <p>66-002 Zielona Góra </p> </center>
+ </td>
+    <tr>  <td> <center> <p> Recepcja: </p>
+          <center> <p> email: recepcja@placowkalecznicza.pl </p> </center>
+          <center> <p> tel: 123 456 789 </p> </center>
+    </tr>
+
+    {% endif %}
+{% if wizyta %}
+    <th>WIZYTY</th>
+  </tr>
+  <tr>
+      <h3>. </h3>
+
+      <td> {{wizyta_user.imie}} </td>
+
+    </tr>
+
+    {% endif %}
+</table>
+
+</body>
+</html>

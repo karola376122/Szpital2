@@ -1,0 +1,35 @@
+    {% extends 'szablon.html' %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 20px 40px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+    </style>
+</head>
+<body>
+   {% block lekarz %}
+    {% if lekarz_user %}
+   <center>  <h1> {{lekarz_user.imie}} {{lekarz_user.nazwisko}} </h1>
+       <p> Specjalizacja: {{lekarz_user.specjalizacja}} </p>
+       <p> sala: {{ lekarz_user.sala }}</p> </center>
+    {% else %}
+    <p> Nie ma lekarza o takim id</p>
+    {% endif %}
+    {% endblock lekarz %}
+
+
+</body>
+</html>
